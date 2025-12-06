@@ -1,302 +1,1102 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cybersecurity Career Guide — Pro</title>
-  <meta name="description" content="Full-featured Cybersecurity Career Guide — role recommendations, save profiles, admin view, PDF/PNG export, PSD helper, charts." />
-  <!-- External libs (CDN). Internet required for CDN. If running offline, download these libs and update paths. -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <style>
-    /* Pro layout + colorful theme */
-    :root{
-      --bg1:#071427; --bg2:#08121f; --card:#0b1624; --glass:rgba(255,255,255,0.03);
-      --muted:#9fb0c8; --accent1:#36f3d6; --accent2:#7cc1ff; --accent3:#b57bff; --danger:#ff6b6b; --ok:#22c55e;
-      --radius:16px; --maxw:1200px; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#eaf6ff}
-    .wrap{max-width:var(--maxw);margin:26px auto;padding:18px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:18px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent3),var(--accent1));display:flex;align-items:center;justify-content:center;font-weight:800;color:#02121a}
-    h1{font-size:20px;margin:0}
-    .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pathfinder: Cyber Edition — Interactive Career Navigator</title>
+<meta name="description" content="Pathfinder: Cyber Edition — Your Interactive Cybersecurity Career Navigator. Roles, roadmaps, study material, certs, tools, FAQs, export & save." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7fafc;
+    --surface:#ffffff;
+    --muted:#586370;
+    --primary:#2563eb;
+    --accent:#06b6d4;
+    --glass: rgba(15, 23, 42, 0.04);
+    --radius:12px;
+    --shadow: 0 8px 30px rgba(16,24,40,0.06);
+    --role-padding:12px 16px;
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:#0f172a}
+  a{color:var(--primary);text-decoration:none}
+  .container{max-width:var(--maxw);margin:22px auto;padding:18px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#e6f9f8,#d9ecff);display:flex;align-items:center;justify-content:center;font-weight:800;color:#023047}
+  h1{margin:0;font-size:20px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
 
-    .layout{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
-    @media(max-width:1000px){.layout{grid-template-columns:1fr}}
+  .top-controls{display:flex;gap:12px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .search{padding:10px 12px;border-radius:10px;border:1px solid var(--glass);min-width:260px;background:transparent}
+  .btn{padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),#06b6a4);color:#012;cursor:pointer;font-weight:700}
+  .btn.ghost{background:transparent;border:1px solid var(--glass);color:var(--muted);font-weight:600}
 
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:var(--radius);padding:18px;border:1px solid var(--glass);box-shadow:0 18px 60px rgba(2,6,23,0.6)}
-    .muted{color:var(--muted)}
-    .section{margin-bottom:14px}
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  /* Modern dropdown button */
+  .dropdown {
+    position:relative;
+    display:inline-block;
+  }
+  .dropdown-btn {
+    display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid var(--glass);cursor:pointer;font-weight:700;
+  }
+  .dropdown-btn .caret {border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--muted);margin-left:6px;opacity:0.9}
+  .dropdown-menu {
+    position:absolute;right:0;top:calc(100% + 8px);min-width:220px;background:#fff;border:1px solid var(--glass);box-shadow:0 12px 30px rgba(2,6,23,0.06);border-radius:10px;padding:8px;display:none;z-index:60;
+  }
+  .dropdown-menu .opt {padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--muted)}
+  .dropdown-menu .opt:hover {background:linear-gradient(90deg,rgba(37,99,235,0.06), rgba(123,58,237,0.03));color:var(--primary)}
+  .dropdown.open .dropdown-menu {display:block}
 
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    input[type=range]{-webkit-appearance:none;width:100%;height:12px;background:transparent}
-    input[type=range]::-webkit-slider-runnable-track{height:10px;background:linear-gradient(90deg,rgba(255,255,255,0.03), rgba(255,255,255,0.01));border-radius:999px}
-    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;margin-top:-6px;width:18px;height:18px;border-radius:50%;background:linear-gradient(180deg,var(--accent1),var(--accent2));box-shadow:0 8px 28px rgba(54,243,214,0.06)}
-    .range-row{display:flex;align-items:center;gap:12px}
-    .range-value{min-width:36px;text-align:right;color:var(--muted);font-weight:800}
+  .layout{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
+  @media (max-width:1000px){ .layout{grid-template-columns:1fr} }
 
-    .chips{display:flex;gap:8px;flex-wrap:wrap}
-    .chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);cursor:pointer;color:var(--muted)}
-    .chip.active{background:linear-gradient(90deg, rgba(54,243,214,0.10), rgba(123,111,255,0.06));border-color:rgba(54,243,214,0.18);color:var(--accent1);transform:translateY(-3px)}
+  .main-card{background:var(--surface);border-radius:var(--radius);padding:18px;border:1px solid var(--glass);box-shadow:var(--shadow)}
+  .sidebar{background:var(--surface);border-radius:var(--radius);padding:16px;border:1px solid var(--glass);box-shadow:var(--shadow);height:fit-content;overflow:auto;max-height:80vh}
 
-    .controls{display:flex;gap:10px;align-items:center;margin-top:10px}
-    .btn{padding:10px 14px;border-radius:12px;border:none;cursor:pointer;font-weight:800;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#02121a}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
-    .btn.warn{background:linear-gradient(90deg,var(--accent3),#ff9bb5);color:#02121a}
+  /* Pathway grid */
+  .pathway{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+  .col{background:transparent;padding:12px;border-radius:10px;min-height:520px;position:relative}
+  .col h3{margin:0 0 12px 0;font-size:15px;color:#0f172a}
+  .lane{display:flex;flex-direction:column;gap:12px;align-items:stretch}
 
-    .result{margin-top:16px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
-    .role-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,#05272a,rgba(54,243,214,0.06));color:var(--accent1);font-weight:900}
-    .meter{height:12px;background:var(--glass);border-radius:999px;overflow:hidden;margin-top:10px}
-    .meter > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent3));width:0%;transition:width 700ms cubic-bezier(.2,.9,.3,1)}
+  /* role card */
+  .role{
+    display:flex;flex-direction:column;gap:6px;align-items:flex-start;padding:var(--role-padding);border-radius:10px;background:white;border:1px solid rgba(2,6,23,0.03);box-shadow:0 6px 18px rgba(2,6,23,0.03);cursor:pointer;transition:transform .18s, box-shadow .18s;
+  }
+  .role:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(2,6,23,0.08)}
+  .role.selected{outline:3px solid rgba(37,99,235,0.12);box-shadow:0 14px 36px rgba(37,99,235,0.06)}
+  .role .title{font-weight:700;color:#05203a}
+  .role .meta{font-size:13px;color:var(--muted)}
+  .role .badge{font-weight:700;padding:6px 10px;border-radius:999px;font-size:12px;color:#032;display:inline-block}
 
-    table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
-    th,td{padding:10px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.03)}
-    th{color:var(--muted);font-weight:700}
+  /* role color accents */
+  .area-offensive{background:linear-gradient(90deg,#fff0f7,#f8f3ff)}
+  .area-defensive{background:linear-gradient(90deg,#f0fffb,#f3f8ff)}
+  .area-cloud{background:linear-gradient(90deg,#f0f8ff,#f5f9ff)}
+  .area-compliance{background:linear-gradient(90deg,#fffaf0,#fff8f0)}
+  .area-forensics{background:linear-gradient(90deg,#fbf5ff,#fff7fb)}
+  .area-technical{background:linear-gradient(90deg,#f0fffb,#f7feff)}
+  .area-management{background:linear-gradient(90deg,#fffaf0,#fff7f0)}
 
-    /* profiles manager */
-    .profiles{max-height:300px;overflow:auto}
-    .profile-row{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:10px;margin-bottom:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
-    .small{font-size:13px;color:var(--muted)}
+  .role .small-muted{font-size:12px;color:var(--muted)}
 
-    /* admin / charts */
-    .chart-wrap{height:160px}
+  /* SVG connectors overlay */
+  .canvas-wrap{position:relative}
+  .connectors-canvas{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .connector-path{transition:stroke .12s, stroke-width .12s, opacity .12s}
 
-    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+  /* minimap */
+  .minimap{position:absolute;right:12px;bottom:12px;width:220px;height:140px;border-radius:10px;background:#fff;border:1px solid var(--glass);box-shadow:0 12px 30px rgba(2,6,23,0.06);padding:8px;z-index:40}
+  .minimap svg{width:100%;height:100%;display:block;opacity:0.95}
 
-    @media(max-width:520px){.grid-2{grid-template-columns:1fr}}
-  </style>
+  /* Sidebar detail styles (tabs & sections) */
+  .tabs{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .tab{padding:8px 10px;border-radius:8px;border:1px solid var(--glass);background:transparent;cursor:pointer}
+  .tab.active{background:linear-gradient(90deg,var(--primary),#7c3aed);color:white;border-color:transparent}
+  .detail-section{margin-top:12px}
+  .detail-section h4{margin:6px 0}
+  .faq q{display:block;padding:8px;border-radius:8px;background:#fbfbfb;border-left:4px solid #eee;margin-bottom:8px}
+  .code-sample{font-family:monospace;background:#f5f7fa;padding:8px;border-radius:6px;border:1px solid var(--glass);font-size:13px}
+  .link-list{margin-left:16px}
+
+  /* small screens tweaks */
+  @media (max-width:720px){
+    .search{min-width:140px}
+    .role{padding:12px}
+    .minimap{display:none}
+    .sidebar{max-height:none}
+    .dropdown-menu{right:unset;left:0}
+  }
+
+  /* subtle animations for drawing connectors */
+  @keyframes drawLine { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+  .muted{color:var(--muted)}
+</style>
 </head>
 <body>
-  <div class="wrap" id="appRoot">
+  <div class="container" id="app">
     <header>
       <div class="brand">
-        <div class="logo">CG</div>
+        <div class="logo">PF</div>
         <div>
-          <h1>Cybersecurity Career Guide — Pro</h1>
-          <div class="subtitle">Pro features: Save profiles, admin view, charts, PDF/PNG export, PSD helper, deploy-ready.</div>
+          <h1>Pathfinder: Cyber Edition</h1>
+          <div class="subtitle">Your Interactive Cybersecurity Career Navigator</div>
         </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn ghost" id="openAdmin">Admin</button>
-        <button class="btn ghost" id="deployGuide">Deploy</button>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn" id="exportBtn" title="Export the pathway card as PNG">Export PNG</button>
+        <button class="btn ghost" id="saveLocalBtn" title="Save current selection to browser">Save Profile</button>
       </div>
     </header>
 
-    <div class="layout">
-      <main class="card" id="mainCard">
-        <div class="section">
-          <h3 style="margin:0">1. Tell us about yourself</h3>
-          <div class="muted">Rate skills & choose interests. Click Get Recommendation to generate a role + roadmap.</div>
+    <div class="top-controls" style="margin-top:12px">
+      <input id="search" class="search" placeholder="Search roles (e.g., SOC Analyst, Penetration Tester)" />
+      <!-- Modern dropdown button -->
+      <div class="dropdown" id="categoryDropdown" style="margin-left:8px">
+        <div class="dropdown-btn" id="dropdownBtn" aria-haspopup="true" aria-expanded="false">
+          <span id="dropdownLabel">Category: All Categories</span>
+          <span class="caret"></span>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu" role="menu" aria-hidden="true">
+          <div class="opt" data-val="all">All Categories</div>
+          <div class="opt" data-val="offensive">Offensive (Red Team)</div>
+          <div class="opt" data-val="defensive">Defensive (SOC / Blue Team)</div>
+          <div class="opt" data-val="cloud">Cloud Security</div>
+          <div class="opt" data-val="compliance">GRC / Compliance</div>
+          <div class="opt" data-val="forensics">DFIR / Forensics</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout" style="margin-top:14px;">
+      <main class="main-card" id="mainCard">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;gap:10px;align-items:center">
+            <h2 style="margin:0;font-size:16px">Career Pathway</h2>
+            <div class="muted" style="font-size:13px">Click any role to view a full career guide (tabs: Overview, Roadmap, Resources, FAQ, Projects).</div>
+          </div>
+          <div class="muted small">Tip: Hover nodes to highlight connections</div>
         </div>
 
-        <div id="formArea">
-          <div class="grid-2">
-            <div class="field">
-              <label>Networking <span class="range-value" id="nval">3</span></label>
-              <div class="range-row"><input id="networking" type="range" min="1" max="5" value="3" oninput="setVal('nval',this.value)"></div>
-            </div>
-            <div class="field">
-              <label>Linux <span class="range-value" id="lval">3</span></label>
-              <div class="range-row"><input id="linux" type="range" min="1" max="5" value="3" oninput="setVal('lval',this.value)"></div>
-            </div>
+        <div class="canvas-wrap" id="canvasWrap" style="margin-top:14px;min-height:520px;position:relative">
+          <svg class="connectors-canvas" id="connectorsSvg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet"></svg>
 
-            <div class="field">
-              <label>Scripting (Python/Bash) <span class="range-value" id="sval">3</span></label>
-              <div class="range-row"><input id="scripting" type="range" min="1" max="5" value="3" oninput="setVal('sval',this.value)"></div>
+          <div class="pathway" id="pathway">
+            <div class="col" data-col="entry">
+              <h3>Entry</h3>
+              <div class="lane" id="entryLane"></div>
             </div>
-            <div class="field">
-              <label>Problem Solving <span class="range-value" id="pval">3</span></label>
-              <div class="range-row"><input id="problem" type="range" min="1" max="5" value="3" oninput="setVal('pval',this.value)"></div>
+            <div class="col" data-col="mid">
+              <h3>Mid</h3>
+              <div class="lane" id="midLane"></div>
             </div>
-
-            <div class="field">
-              <label>Documentation & Communication <span class="range-value" id="dval">3</span></label>
-              <div class="range-row"><input id="documentation" type="range" min="1" max="5" value="3" oninput="setVal('dval',this.value)"></div>
-            </div>
-            <div class="field">
-              <label>Cloud Basics <span class="range-value" id="cval">2</span></label>
-              <div class="range-row"><input id="cloud" type="range" min="1" max="5" value="2" oninput="setVal('cval',this.value)"></div>
+            <div class="col" data-col="advanced">
+              <h3>Advanced</h3>
+              <div class="lane" id="advancedLane"></div>
             </div>
           </div>
 
-          <div class="field">
-            <label>Interests</label>
-            <div class="chips" id="chips">
-              <div class="chip" data-val="offensive">Offensive / Red Team</div>
-              <div class="chip" data-val="defensive">Defensive / SOC</div>
-              <div class="chip" data-val="compliance">GRC / Compliance</div>
-              <div class="chip" data-val="cloud">Cloud Security</div>
-              <div class="chip" data-val="forensics">DFIR / Forensics</div>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Experience</label>
-            <select id="experience" style="width:100%;padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03)">
-              <option value="0">Student / Beginner</option>
-              <option value="1">Some hands-on</option>
-              <option value="2">Intern / Part-time</option>
-              <option value="3">Working professional</option>
-            </select>
-          </div>
-
-          <div class="controls">
-            <button class="btn" id="runBtn">Get Recommendation</button>
-            <button class="btn ghost" id="saveBtn">Save Profile</button>
-            <button class="btn ghost" id="exportBtn">Export JSON</button>
-            <button class="btn warn" id="exportPdf">Export PDF Report</button>
-            <button class="btn ghost" id="exportPSD">Export PNG + PSD helper</button>
-          </div>
-
-          <div id="result" class="result" style="display:none">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-              <div>
-                <div class="role-badge" id="roleName">SOC Analyst</div>
-                <div class="small muted" id="why">Why this role?</div>
-              </div>
-              <div style="min-width:220px">
-                <div style="display:flex;justify-content:space-between"><div class="small muted">Profile score</div><div id="scoreVal">0%</div></div>
-                <div class="meter"><span id="meterBar"></span></div>
-              </div>
-            </div>
-
-            <div style="margin-top:14px;display:flex;gap:18px;flex-wrap:wrap">
-              <div style="flex:1;min-width:280px">
-                <h4 style="margin:8px 0">Learning Roadmap</h4>
-                <table>
-                  <thead><tr><th>What</th><th>Tools / Resources</th></tr></thead>
-                  <tbody id="roadmapBody"></tbody>
-                </table>
-              </div>
-              <div style="width:320px">
-                <h4 style="margin:8px 0">Certifications</h4>
-                <ul id="certs"></ul>
-                <h4 style="margin:8px 0">Projects</h4>
-                <ul id="projects"></ul>
-              </div>
-            </div>
+          <!-- minimap -->
+          <div class="minimap" id="minimap" title="Minimap (visual guide)">
+            <svg id="miniSvg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet"></svg>
           </div>
         </div>
       </main>
 
-      <aside class="card">
-        <h3 style="margin-top:4px">Profiles & Admin</h3>
-        <div class="muted small">Saved profiles are stored locally (browser). Admin view shows aggregate charts and allows CSV export.</div>
-
-        <div style="margin-top:12px;display:flex;gap:8px;align-items:center;justify-content:space-between">
-          <div class="small muted">Saved Profiles</div>
-          <div style="display:flex;gap:8px">
-            <button class="btn ghost" id="downloadCSV">Download CSV</button>
-            <button class="btn ghost" id="clearAll">Clear All</button>
+      <aside class="sidebar" id="sidebar">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h3 style="margin:0" id="detailTitle">Role Details</h3>
+            <div class="muted" id="selectedRoleLevel"></div>
           </div>
+          <div style="text-align:right"><small class="muted">Client-only • No backend</small></div>
         </div>
 
-        <div class="profiles" id="profilesList" style="margin-top:10px"></div>
+        <div class="tabs" id="tabs">
+          <div class="tab active" data-tab="overview">Overview</div>
+          <div class="tab" data-tab="roadmap">Roadmap</div>
+          <div class="tab" data-tab="resources">Resources</div>
+          <div class="tab" data-tab="faq">FAQ</div>
+          <div class="tab" data-tab="projects">Projects</div>
+        </div>
 
-        <hr style="margin:12px 0;border-top:1px solid rgba(255,255,255,0.03)">
-        <h4 class="small muted">Quick Analytics</h4>
-        <div class="chart-wrap"><canvas id="roleChart"></canvas></div>
-        <div class="chart-wrap" style="margin-top:12px"><canvas id="scoreChart"></canvas></div>
+        <div id="detailsArea" style="margin-top:12px">
+          <div class="muted">Click a role node to see the full career guide. Use tabs to navigate sections.</div>
+        </div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid var(--glass)">
+
+        <div>
+          <h4 style="margin:0">Saved Profiles</h4>
+          <div class="muted" style="margin-top:8px">Profiles saved in this browser (localStorage). Export CSV to hand to your teacher.</div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn ghost" id="viewSaved">View</button>
+            <button class="btn ghost" id="exportCSV">Export CSV</button>
+            <button class="btn ghost" id="clearSaved">Clear</button>
+          </div>
+          <div id="savedList" style="margin-top:10px;max-height:160px;overflow:auto"></div>
+        </div>
+
       </aside>
     </div>
-
-    <footer>Pro project • Run locally or deploy to GitHub Pages. Use Export PDF for a printable project report.</footer>
   </div>
 
+  <!-- html2canvas for PNG export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <script>
-    /***** Data & role definitions *****/
-    const ROLES = {
-      'SOC Analyst': { match: s => s.networking>=4 && s.problem>=3 && s.interests.includes('defensive'), why: 'Strong networking + monitoring skills', roadmap:[['Core','Packet capture, TCP/IP, Log analysis'],['Tools','Splunk, Wireshark, Elastic']], certs:['Security+','Splunk Core'], projects:['Mini SIEM','PCAP analysis'] },
-      'Penetration Tester': { match: s => s.scripting>=4 && s.linux>=4 && s.interests.includes('offensive'), why: 'Scripting + Linux skills', roadmap:[['Core','Linux, Scripting, Web vuln'],['Tools','Burp, Nmap, Metasploit']], certs:['eJPT','OSCP'], projects:['Exploit writeups','CTF solutions'] },
-      'GRC Analyst': { match: s => s.documentation>=4 && s.interests.includes('compliance'), why: 'Policy & documentation focus', roadmap:[['Core','Policy, Risk assessment'],['Tools','Excel, GRC platforms']], certs:['ISO27001 Lead','CRISC'], projects:['Campus policy sample'] },
-      'Cloud Security': { match: s => s.cloud>=4 && s.scripting>=3 && s.interests.includes('cloud'), why: 'Cloud fundamentals + scripting', roadmap:[['Core','AWS/GCP basics, IAM'],['Tools','CloudTrail, Azure Security Center']], certs:['AWS CP'], projects:['Harden S3 setup'] },
-      'DFIR Analyst': { match: s => s.problem>=4 && s.linux>=3 && s.interests.includes('forensics'), why: 'Analytical & forensic mindset', roadmap:[['Core','Forensics basics, timeline building'],['Tools','Autopsy, Volatility']], certs:['GCFE','GCFA'], projects:['Disk image analysis'] }
-    };
+  /***********************************************
+   * DATA: roles with full detailed career guides
+   ***********************************************/
+  const DATA = {
+    roles: [
+      // Entry: IT Support
+      {
+        id: 'it_support',
+        title: 'IT Support / SysAdmin',
+        level: 'Entry',
+        area: 'technical',
+        skills: ['Linux','Windows','Networking','Scripting (Bash/Python)'],
+        certs: ['CompTIA A+','LPIC-1'],
+        desc: 'Entry-level systems administration: maintain desktops, servers, and basic networks. Strong foundation role for many security careers.',
+        salary: { india: '2.0L–5.0L INR (entry)', intl: '20k–40k USD (entry, varies)' },
+        how_after_12: [
+          'Option 1: Join a B.Tech / BCA / BSc (Computer Science or IT). Take electives in networking and OS.',
+          'Option 2: Diploma in Computer Engineering + entry IT support jobs + certifications (CompTIA A+).',
+          'Parallel: Start labs at home (Linux VM, basic scripting).'
+        ],
+        roadmap: [
+          { stage: '0–6 months', items: ['Learn Linux basics', 'Command line', 'Basic networking (TCP/IP)', 'Set up home lab'] },
+          { stage: '6–18 months', items: ['Manage servers', 'Learn Bash/Python scripting', 'Virtualization basics', 'Basic monitoring'] },
+          { stage: '1–3 years', items: ['Work as Jr Sysadmin', 'Learn logs and incident basics', 'Start security fundamentals (Security+)'] }
+        ],
+        tools: ['Linux (Ubuntu/CentOS)', 'Windows Admin tools', 'SSH', 'Ansible (basic)', 'Wireshark (basics)'],
+        study_materials: {
+          free: [
+            'Linux Journey (linuxjourney.com)',
+            'NetworkChuck YouTube (beginners Linux & networking)',
+            'Cisco Packet Tracer / GNS3 labs'
+          ],
+          paid: [
+            'Udemy: Linux for Beginners',
+            'Pluralsight / Coursera sysadmin courses'
+          ]
+        },
+        interview_qs: [
+          'How do you troubleshoot a machine that won’t boot?',
+          'Explain DNS and how you would debug name resolution.',
+          'How do you securely remote into a server?'
+        ],
+        faqs: [
+          { q: 'I have only 12th pass; can I start?', a: 'Yes — with certifications and hands-on labs you can get entry-level helpdesk roles. Combine with diploma or vocational courses for better chances.' },
+          { q: 'Do I need to program?', a: 'Basic scripting (Bash/Python) helps a lot but you don’t need to be a full-time software engineer.' }
+        ],
+        projects: [
+          'Build a home lab with VirtualBox + multiple VMs and document common tasks',
+          'Create a server hardening checklist and apply to a test VM'
+        ],
+        progression: ['IT Support → Junior SysAdmin → SysAdmin → Cloud/DevOps or Security Engineer']
+      },
 
-    // helpers
-    function setVal(id,v){ document.getElementById(id).textContent = v }
-    function readForm(){ return { networking:+document.getElementById('networking').value, linux:+document.getElementById('linux').value, scripting:+document.getElementById('scripting').value, problem:+document.getElementById('problem').value, documentation:+document.getElementById('documentation').value, cloud:+document.getElementById('cloud').value, interests:Array.from(document.querySelectorAll('.chip.active')).map(x=>x.dataset.val), experience:+document.getElementById('experience').value } }
-    function scoreProfile(s){ const w={networking:1.2,linux:1,scripting:1.2,problem:1.1,documentation:0.9,cloud:1}; let sum=0,max=0; for(const k in w){ sum += (s[k]||0)*w[k]; max += 5*w[k]; } return Math.round((sum/max)*100) }
-    function findRole(s){ for(const r in ROLES){ try{ if(ROLES[r].match(s)) return r }catch(e){} } if(s.scripting>=4 && s.linux>=4) return 'Penetration Tester'; if(s.networking>=4 && s.problem>=3) return 'SOC Analyst'; if(s.documentation>=4) return 'GRC Analyst'; if(s.cloud>=4) return 'Cloud Security'; return 'Security Generalist (Beginner Track)'; }
+      // Entry: SOC Analyst
+      {
+        id: 'soc',
+        title: 'SOC Analyst',
+        level: 'Entry',
+        area: 'defensive',
+        skills: ['Networking','Log analysis','SIEM','Incident triage'],
+        certs: ['CompTIA Security+','Splunk Core Fundamentals'],
+        desc: 'Monitor security alerts, triage incidents, escalate to senior analysts. Great role to learn logs, detection, and incident response basics.',
+        salary: { india: '3.0L–6.0L INR (entry-mid)', intl: '35k–65k USD (entry-mid)' },
+        how_after_12: [
+          'Degree in CS/IT or diploma with networking focus.',
+          'Start labs with free SIEM trials (ELK stack, Splunk trial).'
+        ],
+        roadmap: [
+          { stage: '0–6 months', items: ['Learn TCP/IP & common protocols', 'Understand logs (Windows Event, Syslog)', 'Intro to SIEM'] },
+          { stage: '6–18 months', items: ['Work with alerts, log parsing, query languages (SPL/ELK)', 'Incident triage workflows'] },
+          { stage: '1–3 years', items: ['Become SOC Analyst II, learn advanced detection and hunting'] }
+        ],
+        tools: ['Splunk','Elastic Stack (ELK)','Zeek','Wireshark','Carbon Black'],
+        study_materials: {
+          free: ['Splunk Fundamentals (free eLearning)','ELK Getting Started','TryHackMe SOC Path'],
+          paid: ['Pluralsight SOC courses','SANS introductory courses (expensive)']
+        },
+        interview_qs: [
+          'What steps do you take when you receive an alert indicating possible malware?',
+          'Explain how to use Splunk to find failed logins across hosts.'
+        ],
+        faqs: [
+          { q: 'Is SOC repetitive?', a: 'Entry SOC roles can be repetitive (alert triage). As you gain skill, tasks become more analytical (hunting, detection engineering).' }
+        ],
+        projects: [
+          'Set up ELK, ingest sample logs and write detection queries',
+          'Analyze a PCAP and produce a short incident report'
+        ],
+        progression: ['SOC Analyst I → SOC Analyst II → Threat Hunter / Detection Engineer → Security Engineer']
+      },
 
-    function render(role,score){ document.getElementById('roleName').textContent = role; document.getElementById('why').textContent = ROLES[role] ? ROLES[role].why : 'Balanced skillset'; document.getElementById('scoreVal').textContent = score + '%'; document.getElementById('meterBar').style.width = Math.max(10,score)+'%'; const rb=document.getElementById('roadmapBody'); rb.innerHTML=''; const certs=document.getElementById('certs'); certs.innerHTML=''; const projects=document.getElementById('projects'); projects.innerHTML=''; if(ROLES[role]){ ROLES[role].roadmap.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML = `<td>${r[0]}</td><td>${r[1]}</td>`; rb.appendChild(tr); }); ROLES[role].certs.forEach(c=>{ const li=document.createElement('li'); li.textContent=c; certs.appendChild(li) }); ROLES[role].projects.forEach(p=>{ const li=document.createElement('li'); li.textContent=p; projects.appendChild(li) }); } else { [['Fundamentals','Networking, Linux, Scripting'],['Practice','TryHackMe, CTFs']].forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML = `<td>${r[0]}</td><td>${r[1]}</td>`; rb.appendChild(tr) }); ['Security+','Hands-on labs'].forEach(c=>{ const li=document.createElement('li'); li.textContent=c; certs.appendChild(li) }); const li=document.createElement('li'); li.textContent='Build portfolio projects'; projects.appendChild(li); } document.getElementById('result').style.display='block'; scrollToResult(); }
-    function scrollToResult(){ document.getElementById('result').scrollIntoView({behavior:'smooth',block:'center'}); }
+      // Entry: GRC Analyst
+      {
+        id: 'gcr',
+        title: 'GRC Analyst',
+        level: 'Entry',
+        area: 'compliance',
+        skills: ['Policy','Risk assessment','Audits','Documentation'],
+        certs: ['ISO 27001 Lead Implementer','CRISC'],
+        desc: 'Governance, Risk & Compliance: policies, audits, risk assessments. Ideal for students who like documentation and processes.',
+        salary: { india: '3.0L–7.0L INR (entry-mid)', intl: '35k–70k USD' },
+        how_after_12: [
+          'Degrees in IT/Commerce/Law can be helpful. Short courses on cybersecurity governance.',
+          'Learn basics of ISO 27001 and risk frameworks (NIST, ISO).'
+        ],
+        roadmap: [
+          { stage: '0–6 months', items: ['Learn fundamentals of risk and compliance frameworks', 'Basic security controls'] },
+          { stage: '6–18 months', items: ['Perform simple risk assessments', 'Write sample security policies'] },
+          { stage: '1–3 years', items: ['Join audit or compliance teams, get ISO training'] }
+        ],
+        tools: ['GRC platforms (MetricStream, Archer) - demo accounts', 'Excel/Google Sheets for assessments'],
+        study_materials: {
+          free: ['NIST SP 800-series (official)','ISO 27001 overview resources'],
+          paid: ['ISO 27001 Lead Implementer training','CRISC courses']
+        },
+        interview_qs: [
+          'How do you perform a basic risk assessment?',
+          'What are the main components of an ISMS (Information Security Management System)?'
+        ],
+        faqs: [
+          { q: 'Is GRC technical?', a: 'GRC is more process and policy oriented but technical knowledge helps when mapping controls.' }
+        ],
+        projects: [
+          'Draft a simple security policy for a small org',
+          'Perform a basic risk assessment for a sample web app'
+        ],
+        progression: ['GRC Analyst → Risk Manager → Compliance Lead → CISO (with broader experience)']
+      },
 
-    // profiles storage
-    const STORAGE_KEY = 'cyber_career_profiles_v1';
-    function loadProfiles(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') }catch(e){ return [] } }
-    function saveProfiles(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)) }
-    function addProfile(profile){ const list=loadProfiles(); list.unshift(profile); saveProfiles(list); renderProfiles() }
-    function deleteProfile(ts){ let list=loadProfiles(); list=list.filter(p=>p.timestamp!==ts); saveProfiles(list); renderProfiles(); updateCharts(); }
-    function clearAll(){ if(!confirm('Clear all saved profiles?')) return; localStorage.removeItem(STORAGE_KEY); renderProfiles(); updateCharts(); }
+      // Mid: Penetration Tester
+      {
+        id: 'pen_test',
+        title: 'Penetration Tester',
+        level: 'Mid',
+        area: 'offensive',
+        skills: ['Exploitation','Recon','Scripting','Web & Network vuln testing'],
+        certs: ['eJPT','OSCP'],
+        desc: 'Authorized security testing to find vulnerabilities. Highly hands-on and practical. Great fit for problem-solvers.',
+        salary: { india: '5.0L–15.0L INR (mid)', intl: '60k–120k USD' },
+        how_after_12: [
+          'Degree in CS/IT helps; but many pen-testers start with self-study, CTFs and certs.',
+          'Start with networking, Linux and basic programming (Python).'
+        ],
+        roadmap: [
+          { stage: '0–6 months', items: ['Learn Linux, Bash, Python basics', 'Intro to web technologies (HTTP, HTML, JS)'] },
+          { stage: '6–18 months', items: ['CTFs (TryHackMe, HackTheBox), basic vuln research, Burp Suite basics'] },
+          { stage: '1–3 years', items: ['Build portfolio, write exploit writeups, aim for OSCP/eJPT'] }
+        ],
+        tools: ['Burp Suite','Nmap','Metasploit','Wireshark','OWASP ZAP','GHDB'],
+        study_materials: {
+          free: ['TryHackMe rooms','OWASP WebGoat','PortSwigger free labs','HackTheBox (some free)'],
+          paid: ['Offensive Security PWK (OSCP)','PortSwigger Web Security Academy Pro','Udemy exploit dev courses']
+        },
+        interview_qs: [
+          'Explain the process for testing an external web application.',
+          'Describe a vulnerability you discovered and how you exploited it (portfolio example).'
+        ],
+        faqs: [
+          { q: 'Do I need a degree to be a pen tester?', a: 'No — practical skills, portfolio, and certs can compensate. Many employers value proven hands-on work.' },
+          { q: 'How long until I can get paid work?', a: 'After 6–12 months of consistent practice (CTFs, labs), you can do internships or junior roles.' }
+        ],
+        projects: [
+          'Perform a vuln assessment on a deliberately insecure app and write a report',
+          'Create writeups for 5 CTF challenges you solved'
+        ],
+        progression: ['Junior Pen Tester → Pen Tester → Senior Red Team / Consultant → Red Team Lead / Security Researcher']
+      },
 
-    function renderProfiles(){ const list=loadProfiles(); const container=document.getElementById('profilesList'); container.innerHTML=''; if(list.length===0){ container.innerHTML='<div class="small muted">No saved profiles yet.</div>'; return; } list.forEach(p=>{ const div=document.createElement('div'); div.className='profile-row'; div.innerHTML = `<div><strong>${p.role}</strong><div class='small muted'>${p.name || p.timestamp.slice(0,19)}</div></div><div style="display:flex;gap:8px"><button class='btn ghost small' data-ts='${p.timestamp}' onclick='viewProfile(this)'>View</button><button class='btn ghost small' data-ts='${p.timestamp}' onclick='downloadProfile(this)'>JSON</button><button class='btn ghost small' data-ts='${p.timestamp}' onclick='deleteProfileUI(this)'>Delete</button></div>`; container.appendChild(div) }); }
+      // Mid: Threat Hunter
+      {
+        id: 'threat_hunter',
+        title: 'Threat Hunter',
+        level: 'Mid',
+        area: 'defensive',
+        skills: ['Hunting','Threat intel','Log analysis','Forensics'],
+        certs: ['GCFA','GCTI'],
+        desc: 'Proactive search for adversary behavior inside networks. Requires pattern recognition and deep log/endpoint knowledge.',
+        salary: { india: '6.0L–18.0L INR', intl: '70k–130k USD' },
+        how_after_12: [
+          'Degree helps; grow from SOC to hunting by learning logs, scripting, and forensics.'
+        ],
+        roadmap: [
+          { stage: '0–6 months', items: ['Understand logs and data sources', 'Learn basic forensics'] },
+          { stage: '6–24 months', items: ['Work in SOC, learn detection engineering, start hunting exercises'] },
+          { stage: '2–5 years', items: ['Lead hunts, create detection rules, contribute to intel'] }
+        ],
+        tools: ['ELK','Splunk','Velociraptor','Volatility','YARA'],
+        study_materials: {
+          free: ['MITRE ATT&CK framework','Elastic docs','Splunk fundamentals'],
+          paid: ['SANS FOR508 / FOR572 (advanced)']
+        },
+        interview_qs: [
+          'How do you distinguish false positives from real threats?',
+          'Describe how you build a hypothesis for hunting.'
+        ],
+        faqs: [
+          { q: 'Is threat hunting for coders?', a: 'Scripting helps (Python, KQL/SPL), but intuition and log understanding are key.' }
+        ],
+        projects: [
+          'Create hunting playbooks for common TTPs (MITRE ATT&CK)',
+          'Analyze a sample incident and produce IOC list'
+        ],
+        progression: ['Threat Hunter → Senior Threat Hunter → Detection Engineer → Head of Threat Ops']
+      },
 
-    window.viewProfile = function(btn){ const ts=btn.dataset.ts; const list=loadProfiles(); const p=list.find(x=>x.timestamp===ts); if(!p) return alert('Profile not found'); // populate UI
-      // set sliders and chips
-      document.getElementById('networking').value = p.networking; setVal('nval',p.networking);
-      document.getElementById('linux').value = p.linux; setVal('lval',p.linux);
-      document.getElementById('scripting').value = p.scripting; setVal('sval',p.scripting);
-      document.getElementById('problem').value = p.problem; setVal('pval',p.problem);
-      document.getElementById('documentation').value = p.documentation; setVal('dval',p.documentation);
-      document.getElementById('cloud').value = p.cloud; setVal('cval',p.cloud);
-      document.getElementById('experience').value = p.experience;
-      document.querySelectorAll('.chip').forEach(c=> c.classList.toggle('active', p.interests.includes(c.dataset.val)));
-      render(p.role, p.score);
+      // Mid: Cloud Security Engineer
+      {
+        id: 'cloud_sec',
+        title: 'Cloud Security Engineer',
+        level: 'Mid',
+        area: 'cloud',
+        skills: ['Cloud IAM','Hardening','Cloud networking','Scripting'],
+        certs: ['AWS Certified Security Specialty','CCSP'],
+        desc: 'Secure cloud infrastructure and platforms. Highly in-demand role with strong automation and infra knowledge required.',
+        salary: { india: '8.0L–22.0L INR', intl: '80k–160k USD' },
+        how_after_12: [
+          'Degree or diploma in CS/IT, then focus on cloud platforms (AWS/GCP/Azure). Start with fundamentals and free tiers for hands-on.'
+        ],
+        roadmap: [
+          { stage: '0–6 months', items: ['Cloud basics (VMs, storage, IAM)', 'Hands-on with AWS free tier'] },
+          { stage: '6–18 months', items: ['Learn cloud security services, IaC (Terraform), and logging/monitoring'] },
+          { stage: '1–3 years', items: ['Design secure cloud architectures and implement automation'] }
+        ],
+        tools: ['AWS/GCP/Azure consoles','CloudTrail','Terraform','AWS Config','Kubernetes (security basics)'],
+        study_materials: {
+          free: ['AWS free tier labs','A Cloud Guru free materials','Cloud provider docs'],
+          paid: ['A Cloud Guru courses','Official cert training']
+        },
+        interview_qs: [
+          'How do you secure S3 buckets in AWS?',
+          'Explain IAM roles vs policies and a secure design pattern.'
+        ],
+        faqs: [
+          { q: 'Do I need to learn programming?', a: 'IaC and automation (Terraform/Python) are important for the role.' }
+        ],
+        projects: [
+          'Harden a sample S3-hosted website, document steps and results',
+          'Build automated CI/CD pipeline with security checks'
+        ],
+        progression: ['Cloud Sec Engineer → Senior Cloud Security → Cloud Architect → Head of Cloud Security']
+      },
+
+      // Mid: DFIR Analyst
+      {
+        id: 'dfir',
+        title: 'DFIR Analyst',
+        level: 'Mid',
+        area: 'forensics',
+        skills: ['Disk & memory forensics','Timeline analysis','Malware basics'],
+        certs: ['GCFE','GCFA'],
+        desc: 'Digital forensics and incident response: investigate breaches, recover evidence, and produce reports for stakeholders.',
+        salary: { india: '6.0L–16.0L INR', intl: '70k–140k USD' },
+        how_after_12: [
+          'Study CS/IT and focus on security courses; join SOC and move to IR; labs with Autopsy/Volatility.'
+        ],
+        roadmap: [
+          { stage: '0–6 months', items: ['Learn file systems, Windows artifacts, basic memory concepts'] },
+          { stage: '6–24 months', items: ['Practice with Autopsy/Volatility, capture and analyze PCAPs'] },
+          { stage: '2–5 years', items: ['Handle real incidents, produce IR reports, work with law enforcement when required'] }
+        ],
+        tools: ['Autopsy','Volatility','SIFT','FTK Imager','Wireshark'],
+        study_materials: {
+          free: ['Autopsy tutorials','SANS DFIR whitepapers','Volatility documentation'],
+          paid: ['SANS FOR500, FOR508']
+        },
+        interview_qs: [
+          'How do you acquire a disk image without altering evidence?',
+          'Describe a timeline-building approach for a host compromise.'
+        ],
+        faqs: [
+          { q: 'Is DFIR forensics legal work?', a: 'Sometimes it interfaces with legal processes; chain-of-custody and reporting are important.' }
+        ],
+        projects: [
+          'Analyze a captured disk image and write a timeline report',
+          'Recover deleted files and document methods used'
+        ],
+        progression: ['DFIR Analyst → Senior IR Analyst → DFIR Lead → Incident Response Manager']
+      },
+
+      // Advanced: Security Engineer
+      {
+        id: 'sec_eng',
+        title: 'Security Engineer',
+        level: 'Advanced',
+        area: 'technical',
+        skills: ['Secure architecture','Automation','Threat modeling','Coding for security'],
+        certs: ['CISSP','GIAC'],
+        desc: 'Design and implement security controls, integrate security into software and infrastructure. Requires broad technical depth.',
+        salary: { india: '12.0L–30.0L INR', intl: '100k–200k+ USD' },
+        how_after_12: [
+          'Strong degree background recommended; focus on systems, networks, and development, then security specialization.'
+        ],
+        roadmap: [
+          { stage: '0–2 years', items: ['Foundations: OS, networks, programming'] },
+          { stage: '2–5 years', items: ['Work as SysAdmin/DevOps, add security responsibilities'] },
+          { stage: '5+ years', items: ['Lead security projects, architecture design, mentoring'] }
+        ],
+        tools: ['SIEM, IAM, WAFs, Vulnerability scanners, IaC tools'],
+        study_materials: {
+          free: ['Security Architecture whitepapers','OWASP Top 10 for secure coding'],
+          paid: ['CISSP training','SANS advanced courses']
+        },
+        interview_qs: [
+          'How do you design a secure microservices architecture?',
+          'Explain threat modeling steps you follow.'
+        ],
+        faqs: [
+          { q: 'Is Security Engineer coding-heavy?', a: 'Often yes — automation and integration require scripting or programming.' }
+        ],
+        projects: [
+          'Design secure reference architecture for a web app and document controls',
+          'Automate security checks in CI/CD pipeline'
+        ],
+        progression: ['Security Engineer → Senior Security Engineer → Security Architect → Head of Security / CISO']
+      },
+
+      // Advanced: Red Team Lead
+      {
+        id: 'red_lead',
+        title: 'Red Team Lead',
+        level: 'Advanced',
+        area: 'offensive',
+        skills: ['Adversary simulation','Advanced exploitation','Leadership','OPSEC'],
+        certs: ['OSCP','Red Team certifications'],
+        desc: 'Lead offensive engagements, simulate real attackers, coordinate exercises and report risk to leadership.',
+        salary: { india: '12.0L–30.0L INR', intl: '110k–220k USD' },
+        how_after_12: [
+          'Start with pen testing path, build portfolio, work up through red team roles and gain leadership experience.'
+        ],
+        roadmap: [
+          { stage: '0–3 years', items: ['Pen testing fundamentals, CTFs, exploit dev basics'] },
+          { stage: '3–7 years', items: ['Real engagement experience, specialized techniques (opsec, persistence)'] },
+          { stage: '7+ years', items: ['Lead teams and plan red exercises'] }
+        ],
+        tools: ['Cobalt Strike (licensed)','Custom tooling','Metasploit','Burp Suite'],
+        study_materials: {
+          free: ['Red team blog posts / writeups','Advanced CTF writeups'],
+          paid: ['Offensive Security courses','Professional red team training']
+        },
+        interview_qs: [
+          'Describe a full-scope red team engagement you ran.',
+          'How do you ensure your tests mimic realistic attackers responsibly?'
+        ],
+        faqs: [
+          { q: 'Is red teaming illegal?', a: 'Not when authorized. Work only on legal scopes and with permission.' }
+        ],
+        projects: [
+          'Plan and execute a mock engagement in a lab environment and write an executive report',
+          'Develop a small red-team tooling script and document usage'
+        ],
+        progression: ['Senior Red Teamer → Red Team Lead → Offensive Director / Consultant']
+      },
+
+      // Advanced: CISO
+      {
+        id: 'ciso',
+        title: 'CISO / Head of Security',
+        level: 'Advanced',
+        area: 'management',
+        skills: ['Strategy','Risk management','Leadership','Compliance'],
+        certs: ['CISM','CISSP','MBA sometimes'],
+        desc: 'Executive-level security leader responsible for overall security posture and strategy. Requires technical background + business skills.',
+        salary: { india: '30.0L+ INR', intl: '150k–400k+ USD (varies widely)' },
+        how_after_12: [
+          'A long-term career: technical foundation, management experience, business understanding and strong communication skills.'
+        ],
+        roadmap: [
+          { stage: '0–5 years', items: ['Technical foundations: networks, systems, security basics'] },
+          { stage: '5–12 years', items: ['Operational leadership roles, manage teams, handle incidents'] },
+          { stage: '12+ years', items: ['Executive leadership, strategy, board-level reporting'] }
+        ],
+        tools: ['Risk management frameworks, GRC tools, exec dashboards'],
+        study_materials: {
+          free: ['NIST & ISO guidance','Executive security briefings'],
+          paid: ['Executive security programs','business/management courses']
+        },
+        interview_qs: [
+          'How would you align security strategy with business objectives?',
+          'Describe a time you managed a cross-functional security incident at scale.'
+        ],
+        faqs: [
+          { q: 'Do CISOs code?', a: 'Not typically. They must understand technical issues but focus on strategy, risk and leadership.' }
+        ],
+        projects: [
+          'Create a 1-year security roadmap for a small company and present it',
+          'Build a simple risk dashboard showing top 10 risks and control status'
+        ],
+        progression: ['Security Manager → Director → CISO / VP Security']
+      }
+    ],
+    connections: [
+      ['it_support','soc'], ['it_support','cloud_sec'], ['soc','threat_hunter'], ['soc','dfir'],
+      ['threat_hunter','sec_eng'], ['pen_test','red_lead'], ['cloud_sec','sec_eng'],
+      ['gcr','ciso'], ['sec_eng','ciso'], ['red_lead','ciso'], ['dfir','sec_eng']
+    ]
+  };
+
+  // quick map
+  const rolesById = {}; DATA.roles.forEach(r=>rolesById[r.id]=r);
+
+  /*********************
+   * DOM refs
+   *********************/
+  const entryLane = document.getElementById('entryLane');
+  const midLane = document.getElementById('midLane');
+  const advLane = document.getElementById('advancedLane');
+  const connectorsSvg = document.getElementById('connectorsSvg');
+  const pathway = document.getElementById('pathway');
+  const detailsArea = document.getElementById('detailsArea');
+  const selectedRoleLevel = document.getElementById('selectedRoleLevel');
+  const searchInput = document.getElementById('search');
+  const savedList = document.getElementById('savedList');
+  const miniSvg = document.getElementById('miniSvg');
+  const minimapWrap = document.getElementById('minimap');
+  const mainCard = document.getElementById('mainCard');
+  const tabs = document.getElementById('tabs');
+  const dropdown = document.getElementById('categoryDropdown');
+  const dropdownBtn = document.getElementById('dropdownBtn');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  const dropdownLabel = document.getElementById('dropdownLabel');
+
+  /*********************
+   * RENDER ROLES
+   *********************/
+  function renderRoles(filterArea = null, query=''){
+    [entryLane, midLane, advLane].forEach(c=>c.innerHTML='');
+    DATA.roles.forEach(r=>{
+      // map area names: data uses area keys like 'offensive','defensive','cloud','compliance','forensics','technical','management'
+      // We treat 'compliance' as 'compliance' and 'forensics' as 'forensics'
+      if(filterArea && filterArea!=='all'){
+        // normalize cloud -> 'cloud', compliance->'compliance', forensics->'forensics', offensive->'offensive', defensive->'defensive'
+        const areaMatch = (r.area === filterArea) || (filterArea === 'dfir' && r.area === 'forensics') || (filterArea === 'grc' && r.area === 'compliance');
+        if(!areaMatch) return;
+      }
+      if(query && !r.title.toLowerCase().includes(query.toLowerCase())) return;
+      const card = document.createElement('div');
+      card.className = 'role ' + (r.area ? 'area-' + r.area : '');
+      card.dataset.id = r.id;
+      card.innerHTML = `<div class="title">${r.title}</div><div class="meta small-muted">${r.skills.slice(0,3).join(' • ')}</div>`;
+      card.addEventListener('click', ()=> selectRole(r.id));
+      card.addEventListener('mouseenter', ()=> highlightConnections(r.id,true));
+      card.addEventListener('mouseleave', ()=> highlightConnections(r.id,false));
+
+      if(r.level === 'Entry') entryLane.appendChild(card);
+      else if(r.level === 'Mid') midLane.appendChild(card);
+      else advLane.appendChild(card);
+    });
+    requestAnimationFrame(drawConnectors);
+  }
+
+  /*********************
+   * DRAW CONNECTORS
+   *********************/
+  function drawConnectors(){
+    while(connectorsSvg.firstChild) connectorsSvg.removeChild(connectorsSvg.firstChild);
+    const bbox = pathway.getBoundingClientRect();
+    connectorsSvg.setAttribute('width', bbox.width);
+    connectorsSvg.setAttribute('height', bbox.height);
+    connectorsSvg.style.left = pathway.offsetLeft + 'px';
+    connectorsSvg.style.top = pathway.offsetTop + 'px';
+
+    function getCenter(roleId){
+      const el = document.querySelector(`.role[data-id="${roleId}"]`);
+      if(!el) return null;
+      const r = el.getBoundingClientRect();
+      return { x: r.left + r.width/2 - bbox.left, y: r.top + r.height/2 - bbox.top };
     }
 
-    window.downloadProfile = function(btn){ const ts=btn.dataset.ts; const list=loadProfiles(); const p=list.find(x=>x.timestamp===ts); if(!p) return alert('Profile not found'); const blob=new Blob([JSON.stringify(p,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`profile-${p.timestamp}.json`; a.click(); URL.revokeObjectURL(url); }
-    window.deleteProfileUI = function(btn){ const ts=btn.dataset.ts; if(!confirm('Delete this profile?')) return; deleteProfile(ts); }
-
-    // CSV export
-    function downloadCSV(){ const list=loadProfiles(); if(list.length===0) return alert('No profiles to export'); const rows=[['timestamp','role','score','networking','linux','scripting','problem','documentation','cloud','interests','experience']]; list.forEach(p=> rows.push([p.timestamp,p.role,p.score,p.networking,p.linux,p.scripting,p.problem,p.documentation,p.cloud,`"${p.interests.join(';')}"`,p.experience])); const csv=rows.map(r=>r.join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='profiles.csv'; a.click(); URL.revokeObjectURL(url); }
-
-    // charts
-    let roleChart=null, scoreChart=null;
-    function updateCharts(){ const list=loadProfiles(); const roleCounts={}; const scores=[]; list.forEach(p=>{ roleCounts[p.role]=(roleCounts[p.role]||0)+1; scores.push(p.score) }); const labels=Object.keys(roleCounts); const data=Object.values(roleCounts); if(!roleChart){ const ctx=document.getElementById('roleChart'); roleChart = new Chart(ctx,{ type:'doughnut', data:{ labels, datasets:[{data, backgroundColor:['#36f3d6','#7cc1ff','#b57bff','#ffd86b','#ff7b94']} ]}, options:{plugins:{legend:{position:'bottom'}} } }); } else { roleChart.data.labels = labels; roleChart.data.datasets[0].data = data; roleChart.update(); }
-      // score histogram
-      const bins = [0,20,40,60,80,100]; const counts = bins.map((_,i)=>0); scores.forEach(s=>{ for(let i=0;i<bins.length;i++){ if(s <= bins[i]){ counts[i]++; break; } } }); const ctx2 = document.getElementById('scoreChart'); if(!scoreChart){ scoreChart = new Chart(ctx2,{ type:'bar', data:{ labels:bins.map(b=>b+'%'), datasets:[{label:'Profiles',data:counts}] }, options:{plugins:{legend:{display:false}} } }); } else { scoreChart.data.datasets[0].data = counts; scoreChart.update(); } }
-
-    // UI wiring
-    document.getElementById('runBtn').addEventListener('click', ()=>{ const s=readForm(); const role=findRole(s); const score=scoreProfile(s); render(role,score); });
-    document.getElementById('saveBtn').addEventListener('click', ()=>{ const s=readForm(); const role=findRole(s); const score=scoreProfile(s); const p = {...s, role, score, timestamp: new Date().toISOString()}; addProfile(p); updateCharts(); alert('Profile saved locally'); });
-    document.getElementById('exportBtn').addEventListener('click', ()=>{ const p = readForm(); p.timestamp = new Date().toISOString(); const blob=new Blob([JSON.stringify(p,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='cyber-career-profile.json'; a.click(); URL.revokeObjectURL(url); });
-
-    // export PDF using html2pdf (bundled)
-    document.getElementById('exportPdf').addEventListener('click', ()=>{
-      const node = document.getElementById('mainCard');
-      const opt = { margin:0.3, filename:'cyber-career-report.pdf', image:{type:'jpeg',quality:0.95}, html2canvas:{scale:2, useCORS:true}, jsPDF:{unit:'in',format:'a4',orientation:'portrait'} };
-      html2pdf().set(opt).from(node).save();
+    DATA.connections.forEach((pair, idx)=>{
+      const a = getCenter(pair[0]);
+      const b = getCenter(pair[1]);
+      if(!a || !b) return;
+      const dx = b.x - a.x;
+      const curvature = Math.min(160, Math.abs(dx) * 0.45 + 30);
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      const d = `M ${a.x} ${a.y} C ${a.x + curvature} ${a.y} ${b.x - curvature} ${b.y} ${b.x} ${b.y}`;
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', 'rgba(2,6,23,0.07)');
+      path.setAttribute('fill','none');
+      path.setAttribute('stroke-width','2');
+      path.setAttribute('class','connector-path');
+      // dash animation
+      const length = 1000;
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
+      path.style.animation = `drawLine 700ms ease-out forwards`;
+      connectorsSvg.appendChild(path);
     });
 
-    // export PNG + PSD helper (same approach as earlier)
-    document.getElementById('exportPSD').addEventListener('click', async ()=>{ await exportForPhotoshop(); });
-    async function exportForPhotoshop(){ const root = document.getElementById('appRoot'); const clone = root.cloneNode(true); clone.querySelectorAll('button').forEach(b=>{ if(b.id!=='runBtn') b.remove(); }); const width = Math.min(2000, root.offsetWidth*2); const height = Math.min(3000, root.offsetHeight*2); const serialized = new XMLSerializer().serializeToString(clone); const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}'><foreignObject width='100%' height='100%'><div xmlns='http://www.w3.org/1999/xhtml' style='transform:scale(2);transform-origin:0 0; width:${root.offsetWidth}px;'>${serialized}</div></foreignObject></svg>`; const svgBlob = new Blob([svg],{type:'image/svg+xml;charset=utf-8'}); const url = URL.createObjectURL(svgBlob); const img = new Image(); img.onload = ()=>{ const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height; const ctx = canvas.getContext('2d'); ctx.fillStyle = '#071427'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); canvas.toBlob(blob=>{ const pngUrl = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = pngUrl; a.download = 'cyber-career-pro.png'; a.click(); URL.revokeObjectURL(pngUrl); const jsx = createPhotoshopScript('cyber-career-pro.png'); const jsxBlob = new Blob([jsx],{type:'application/javascript'}); const jsxUrl = URL.createObjectURL(jsxBlob); const b = document.createElement('a'); b.href = jsxUrl; b.download = 'import_layers.jsx'; b.click(); URL.revokeObjectURL(jsxUrl); alert('Downloaded PNG + Photoshop script. Open PNG in Photoshop then Save As → PSD, or run script.'); },'image/png'); URL.revokeObjectURL(url); }; img.onerror = ()=>{ alert('Export failed — try Chrome/Edge and ensure no browser extensions block SVG rendering.'); URL.revokeObjectURL(url); }; img.src = url; }
-    function createPhotoshopScript(pngName){ return `// Simple Photoshop ExtendScript to open selected PNG\n(function(){ var f = File.openDialog('Select the exported PNG to import'); if(!f) { alert('No file selected'); return; } var doc = app.open(f); doc.changeMode(ChangeMode.RGB); alert('PNG opened. Use File → Save As... → Photoshop to save .psd'); })();` }
+    drawMinimap();
+  }
 
-    // Admin modal (simple) — reuse browser prompt for demo
-    document.getElementById('openAdmin').addEventListener('click', ()=>{
-      const list = loadProfiles(); let msg = `Saved profiles: ${list.length}\n\n`; msg += 'Commands:\n1) type "view" to open profiles list in console\n2) type "charts" to update charts\n3) type "clear" to clear all profiles'; const cmd = prompt(msg+'\n\nEnter command:'); if(!cmd) return; if(cmd.toLowerCase()==='view'){ console.table(list); alert('Profiles logged to console.'); } else if(cmd.toLowerCase()==='charts'){ updateCharts(); alert('Charts updated.'); } else if(cmd.toLowerCase()==='clear'){ if(confirm('Clear ALL profiles?')){ clearAll(); alert('Cleared.'); } } else alert('Unknown command'); });
-
-    // deploy guide
-    document.getElementById('deployGuide').addEventListener('click', ()=>{
-      alert('To deploy: 1) Save this file as index.html and push to a GitHub repo. 2) Enable GitHub Pages (gh-pages branch or main). 3) Your site will be available as https://<username>.github.io/<repo>');
+  /*********************
+   * HIGHLIGHT LOGIC
+   *********************/
+  function highlightConnections(roleId, on){
+    DATA.connections.forEach((pair, idx)=>{
+      const path = connectorsSvg.children[idx];
+      if(!path) return;
+      if(pair[0] === roleId || pair[1] === roleId){
+        if(on){ path.setAttribute('stroke', 'rgba(37,99,235,0.95)'); path.setAttribute('stroke-width','3'); path.style.opacity = 1; }
+        else { path.setAttribute('stroke', 'rgba(2,6,23,0.07)'); path.setAttribute('stroke-width','2'); path.style.opacity = 1; }
+      } else {
+        if(on) path.style.opacity = 0.12; else path.style.opacity = 1;
+      }
     });
+    document.querySelectorAll('.role').forEach(el=>{
+      if(el.dataset.id === roleId) el.style.transform = on ? 'translateY(-6px) scale(1.02)' : 'none';
+      else el.style.transform = 'none';
+    });
+  }
 
-    // clear all
-    document.getElementById('clearAll').addEventListener('click', ()=>{ clearAll(); });
-    document.getElementById('downloadCSV').addEventListener('click', ()=>{ downloadCSV(); });
+  /*********************
+   * SELECT ROLE (TABBED DETAILS)
+   *********************/
+  let currentRole = null;
+  function selectRole(roleId){
+    const r = rolesById[roleId];
+    if(!r) return;
+    currentRole = r;
+    document.getElementById('detailTitle').textContent = r.title;
+    selectedRoleLevel.textContent = r.level + ' • ' + prettyArea(r.area);
+    renderTab('overview');
+    document.querySelectorAll('.role').forEach(el=>el.classList.remove('selected'));
+    const el = document.querySelector(`.role[data-id="${roleId}"]`);
+    if(el) el.classList.add('selected');
+    if(window.innerWidth < 1000 && el) el.scrollIntoView({behavior:'smooth',block:'center'});
+  }
 
-    // init
-    document.querySelectorAll('.chip').forEach(ch=> ch.addEventListener('click', ()=> ch.classList.toggle('active')));
-    ['nval','lval','sval','pval','dval'].forEach(id=>{ const map={'nval':'networking','lval':'linux','sval':'scripting','pval':'problem','dval':'documentation'}; const el=document.getElementById(id); if(el) el.textContent = document.getElementById(map[id]).value }); setVal('cval',2);
-    renderProfiles(); updateCharts();
+  function prettyArea(a){
+    if(a === 'compliance') return 'GRC';
+    if(a === 'forensics') return 'DFIR';
+    if(a === 'technical') return 'Technical';
+    if(a === 'management') return 'Management';
+    return a ? a.charAt(0).toUpperCase() + a.slice(1) : '';
+  }
+
+  function renderTab(tab){
+    if(!currentRole) { detailsArea.innerHTML = '<div class="muted">Click a role to view details.</div>'; return; }
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+
+    if(tab === 'overview') detailsArea.innerHTML = overviewHTML(currentRole);
+    else if(tab === 'roadmap') detailsArea.innerHTML = roadmapHTML(currentRole);
+    else if(tab === 'resources') detailsArea.innerHTML = resourcesHTML(currentRole);
+    else if(tab === 'faq') detailsArea.innerHTML = faqHTML(currentRole);
+    else if(tab === 'projects') detailsArea.innerHTML = projectsHTML(currentRole);
+  }
+
+  function overviewHTML(r){
+    return `
+      <div class="detail-section">
+        <h4>Overview</h4>
+        <div class="muted">${r.desc}</div>
+        <div style="margin-top:8px"><strong>Job profiles / typical titles:</strong> ${jobProfiles(r)}</div>
+        <div style="margin-top:8px"><strong>Responsibilities:</strong> ${responsibilities(r)}</div>
+        <div style="margin-top:8px"><strong>Approx Salary:</strong> India: <strong>${r.salary.india}</strong>, Intl: <strong>${r.salary.intl}</strong></div>
+        <div style="margin-top:8px"><strong>How to pursue after 12th:</strong>
+          <ul>${r.how_after_12.map(i=>`<li>${i}</li>`).join('')}</ul>
+        </div>
+      </div>
+    `;
+  }
+
+  function jobProfiles(r){
+    const map = {
+      'it_support': ['Helpdesk Technician','Junior SysAdmin','Desktop Support'],
+      'soc': ['SOC Analyst','Alert Triage Analyst'],
+      'gcr': ['GRC Analyst','Compliance Analyst','Audit Associate'],
+      'pen_test': ['Penetration Tester','Security Consultant','Red Team Operator'],
+      'threat_hunter': ['Threat Hunter','Hunting Analyst','Threat Intelligence Analyst'],
+      'cloud_sec': ['Cloud Security Engineer','Cloud DevSecOps','Cloud Architect (security)'],
+      'dfir': ['DFIR Analyst','Incident Responder','Forensics Analyst'],
+      'sec_eng': ['Security Engineer','Application Security Engineer','Infrastructure Security Engineer'],
+      'red_lead': ['Red Team Lead','Offensive Security Lead','Senior Penetration Tester'],
+      'ciso': ['Chief Information Security Officer','Head of Security']
+    };
+    return (map[r.id] || []).join(', ') || r.title;
+  }
+
+  function responsibilities(r){
+    const base = {
+      'it_support': 'Resolve user tickets, maintain systems, patching, backups, documentation and basic security hygiene.',
+      'soc': 'Monitor alerts, investigate suspicious activity, escalate incidents, and assist in remediation.',
+      'gcr': 'Draft and maintain policies, perform audits, assess risk, and ensure compliance with standards.',
+      'pen_test': 'Plan & execute authorized security tests, document vulnerabilities, and produce remediation reports.',
+      'threat_hunter': 'Proactively search for adversary presence, analyze telemetry and build detection logic.',
+      'cloud_sec': 'Secure cloud resources, implement IAM, ensure secure configurations and automated compliance.',
+      'dfir': 'Investigate security incidents, preserve evidence, perform forensic analysis, and prepare reports.',
+      'sec_eng': 'Design and implement security solutions, integrate controls, and improve system hardening.',
+      'red_lead': 'Plan red team ops, coordinate simulation, mentor operators, and report to stakeholders.',
+      'ciso': 'Define security strategy, manage risk, align security with business goals, and lead teams.'
+    };
+    return base[r.id] || 'Typical responsibilities for ' + r.title;
+  }
+
+  function roadmapHTML(r){
+    return `
+      <div class="detail-section">
+        <h4>Step-by-step Roadmap</h4>
+        ${r.roadmap.map(s=>`<div style="margin-top:8px"><strong>${s.stage}</strong><ul>${s.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`).join('')}
+        <div style="margin-top:10px"><strong>Recommended certifications:</strong> ${r.certs.join(', ')}</div>
+        <div style="margin-top:8px"><strong>Tools you should learn:</strong> ${r.tools ? r.tools.join(', ') : 'See resources'}</div>
+      </div>
+    `;
+  }
+
+  function resourcesHTML(r){
+    return `
+      <div class="detail-section">
+        <h4>Study Materials & Resources</h4>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px">
+            <h5>Free</h5>
+            <ul class="link-list">${(r.study_materials.free || []).map(u=>`<li>${u}</li>`).join('')}</ul>
+          </div>
+          <div style="flex:1;min-width:220px">
+            <h5>Paid / Structured</h5>
+            <ul class="link-list">${(r.study_materials.paid || []).map(u=>`<li>${u}</li>`).join('')}</ul>
+          </div>
+        </div>
+        <div style="margin-top:10px"><strong>Books & Reading:</strong> Check vendor docs and public whitepapers (MITRE, NIST) for practical guides.</div>
+      </div>
+    `;
+  }
+
+  function faqHTML(r){
+    return `
+      <div class="detail-section">
+        <h4>FAQ & Common Student Doubts</h4>
+        ${(r.faqs || []).map(f=>`<div class="faq"><q><strong>Q:</strong> ${f.q}</q><div style="padding:8px">${f.a}</div></div>`).join('')}
+        <div style="margin-top:8px"><strong>Interview questions (examples):</strong><ul>${(r.interview_qs || []).map(q=>`<li>${q}</li>`).join('')}</ul></div>
+      </div>
+    `;
+  }
+
+  function projectsHTML(r){
+    return `
+      <div class="detail-section">
+        <h4>Projects & Internships</h4>
+        <div class="muted">Practical projects build your portfolio — essential for hiring.</div>
+        <ul style="margin-top:8px">${(r.projects || []).map(p=>`<li>${p}</li>`).join('')}</ul>
+        <div style="margin-top:10px"><strong>How to convert projects to a resume entry:</strong>
+          <ol><li>Define objective</li><li>List tools used & skills learned</li><li>Show measurable outcome (vulns found, time saved, demo link)</li></ol>
+        </div>
+      </div>
+    `;
+  }
+
+  /*********************
+   * SEARCH & DROPDOWN FILTERS
+   *********************/
+  searchInput.addEventListener('input', e=>{
+    const q = e.target.value.trim();
+    const activeFilter = currentFilter || 'all';
+    renderRoles(activeFilter, q);
+  });
+
+  // dropdown button behaviour
+  let currentFilter = 'all';
+  dropdownBtn.addEventListener('click', (e)=>{
+    dropdown.classList.toggle('open');
+    const open = dropdown.classList.contains('open');
+    dropdownBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    dropdownMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+  });
+
+  // close dropdown on outside click
+  document.addEventListener('click', (e)=>{
+    if(!dropdown.contains(e.target)) {
+      dropdown.classList.remove('open');
+      dropdownBtn.setAttribute('aria-expanded','false');
+      dropdownMenu.setAttribute('aria-hidden','true');
+    }
+  });
+
+  // dropdown option select
+  Array.from(dropdownMenu.querySelectorAll('.opt')).forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      const val = opt.dataset.val;
+      // map 'grc' or 'dfir' labels if desired; we use 'compliance' and 'forensics' internally
+      let internal = val;
+      if(val === 'compliance') internal = 'compliance';
+      if(val === 'forensics' || val === 'dfir') internal = 'forensics';
+      if(val === 'grc') internal = 'compliance';
+      if(val === 'dfir') internal = 'forensics';
+      if(val === 'all') internal = 'all';
+      currentFilter = internal;
+      dropdownLabel.textContent = `Category: ${opt.textContent}`;
+      dropdown.classList.remove('open');
+      dropdownBtn.setAttribute('aria-expanded','false');
+      dropdownMenu.setAttribute('aria-hidden','true');
+      renderRoles(currentFilter, searchInput.value.trim());
+    });
+  });
+
+  /*********************
+   * SAVED PROFILES (localStorage)
+   *********************/
+  const STORAGE_KEY = 'pathfinder_profiles_v1';
+  function loadProfiles(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') }catch(e){ return [] } }
+  function saveProfiles(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)) }
+  function addProfile(p){ const list = loadProfiles(); list.unshift(p); saveProfiles(list); renderSavedList(); }
+  function saveProfileFromRole(r){
+    const p = {
+      id: `p_${Date.now()}`,
+      role: r.title,
+      roleId: r.id,
+      skills: r.skills.join(';'),
+      certs: r.certs.join(';'),
+      timestamp: new Date().toISOString()
+    };
+    addProfile(p);
+    alert('Saved profile locally. Click "View" in Saved Profiles to export CSV.');
+  }
+
+  function renderSavedList(){
+    const list = loadProfiles();
+    savedList.innerHTML = '';
+    if(list.length === 0){ savedList.innerHTML = '<div class="muted small">No saved profiles</div>'; return; }
+    list.slice(0,6).forEach(p=>{
+      const d = document.createElement('div');
+      d.style.padding = '8px';
+      d.style.borderBottom = '1px dashed rgba(2,6,23,0.03)';
+      d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+        <div><strong style="font-size:14px">${p.role}</strong><div class="muted small">${(new Date(p.timestamp)).toLocaleString()}</div></div>
+        <div style="display:flex;gap:6px"><button class="btn ghost small" data-id="${p.id}" onclick="downloadProfile(event)">JSON</button><button class="btn ghost small" data-id="${p.id}" onclick="deleteSaved(event)">Delete</button></div>
+      </div>`;
+      savedList.appendChild(d);
+    });
+  }
+  window.downloadProfile = function(e){
+    const id = e.currentTarget.dataset.id;
+    const p = loadProfiles().find(x=>x.id===id);
+    if(!p) return alert('Not found');
+    const blob = new Blob([JSON.stringify(p,null,2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `profile-${p.roleId}.json`; a.click();
+    URL.revokeObjectURL(url);
+  };
+  window.deleteSaved = function(e){
+    const id = e.currentTarget.dataset.id;
+    if(!confirm('Delete this saved profile?')) return;
+    let list = loadProfiles();
+    list = list.filter(x=>x.id !== id);
+    saveProfiles(list);
+    renderSavedList();
+  };
+
+  document.getElementById('viewSaved').addEventListener('click', ()=>{
+    const list = loadProfiles();
+    if(list.length === 0) return alert('No saved profiles');
+    console.table(list);
+    alert('Saved profiles logged to console. Use Export CSV to download.');
+  });
+
+  document.getElementById('clearSaved').addEventListener('click', ()=>{
+    if(!confirm('Clear all saved profiles?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    renderSavedList();
+  });
+
+  document.getElementById('exportCSV').addEventListener('click', ()=>{
+    const list = loadProfiles();
+    if(list.length === 0) return alert('No profiles to export');
+    const rows = [['id','role','skills','certs','timestamp']];
+    list.forEach(p=> rows.push([p.id,`"${p.role.replace(/"/g,'""')}"`,`"${p.skills}"`,`"${p.certs}"`,p.timestamp]));
+    const csv = rows.map(r=>r.join(',')).join('\n');
+    const blob = new Blob([csv],{type:'text/csv'});
+    const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'profiles.csv'; a.click(); URL.revokeObjectURL(url);
+  });
+
+  /*********************
+   * EXPORT PNG helpers
+   *********************/
+  async function exportElementPNG(el, filename='export.png'){
+    try{
+      const clone = el.cloneNode(true);
+      const wrapper = document.createElement('div');
+      wrapper.style.padding = '20px';
+      wrapper.style.background = '#fff';
+      wrapper.appendChild(clone);
+      document.body.appendChild(wrapper);
+      const canvas = await html2canvas(wrapper, {backgroundColor:'#ffffff', scale:2, useCORS:true});
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+      document.body.removeChild(wrapper);
+    }catch(e){ alert('Export failed: ' + e.message); }
+  }
+
+  document.getElementById('exportBtn').addEventListener('click', async ()=>{
+    await exportElementPNG(mainCard, 'pathfinder_career_pathway.png');
+  });
+
+  /*********************
+   * MINIMAP
+   *********************/
+  function drawMinimap(){
+    while(miniSvg.firstChild) miniSvg.removeChild(miniSvg.firstChild);
+    const bbox = pathway.getBoundingClientRect();
+    if(!bbox.width || !bbox.height) return;
+    miniSvg.setAttribute('viewBox', `0 0 ${bbox.width} ${bbox.height}`);
+    DATA.roles.forEach(r=>{
+      const el = document.querySelector(`.role[data-id="${r.id}"]`);
+      if(!el) return;
+      const rbox = el.getBoundingClientRect();
+      const x = rbox.left + rbox.width/2 - bbox.left;
+      const y = rbox.top + rbox.height/2 - bbox.top;
+      const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x', x-12); rect.setAttribute('y', y-8); rect.setAttribute('width', 24); rect.setAttribute('height', 16);
+      rect.setAttribute('rx', 3); rect.setAttribute('ry', 3);
+      rect.setAttribute('fill', '#e6eefc');
+      rect.setAttribute('stroke', 'rgba(2,6,23,0.06)');
+      miniSvg.appendChild(rect);
+    });
+    const viewRect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    const bbox2 = pathway.getBoundingClientRect();
+    viewRect.setAttribute('x', 0); viewRect.setAttribute('y', 0); viewRect.setAttribute('width', bbox2.width); viewRect.setAttribute('height', bbox2.height);
+    viewRect.setAttribute('fill','none'); viewRect.setAttribute('stroke','rgba(2,6,23,0.03)');
+    miniSvg.appendChild(viewRect);
+  }
+
+  /*********************
+   * TABS wiring
+   *********************/
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click', ()=> {
+      if(!currentRole) return alert('Select a role first');
+      renderTab(t.dataset.tab);
+    });
+  });
+
+  /*********************
+   * INITIALIZE
+   *********************/
+  function init(){
+    renderRoles('all','');
+    renderSavedList();
+    const first = DATA.roles[0];
+    if(first) selectRole(first.id);
+    setTimeout(drawConnectors, 180);
+    window.addEventListener('resize', ()=> setTimeout(drawConnectors, 140));
+  }
+  init();
+
+  /*********************
+   * Keyboard search (enter selects)
+   *********************/
+  searchInput.addEventListener('keydown', e=>{
+    if(e.key === 'Enter'){
+      const q = searchInput.value.trim().toLowerCase();
+      if(!q) return;
+      const found = DATA.roles.find(r=> r.title.toLowerCase().includes(q) );
+      if(found){ selectRole(found.id); const el=document.querySelector(`.role[data-id="${found.id}"]`); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }
+      else alert('No role found for "'+q+'"');
+    }
+  });
+
+  /*********************
+   * Small polish
+   *********************/
+  // default dropdown label
+  dropdownLabel.textContent = 'Category: All Categories';
+  document.querySelector('.opt[data-val="all"]').classList.add('active');
+
+  /*********************
+   * End
+   *********************/
   </script>
 </body>
 </html>
